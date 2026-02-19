@@ -27,7 +27,7 @@ public class Biblioteca {
 
     //read-leer: listar todos los libros
 
-    private void listarLibros(){
+    public void listarLibros(){
         if (libros.isEmpty()) {
             System.out.println("\n No tenemos libros registrados");
             return;
@@ -97,9 +97,120 @@ public class Biblioteca {
     }
 
 // update- actualizar libro
-    
+    public void actualizarLibro(){
+        System.out.println("\n Ingrese ID a actualizar: ");
+        int id = leerEntero();
+        Libro libro = encontrarLibroPorID(id);
 
+        if (libro == null){
+            System.out.println("No existe un libro con ID: " + id);
+        return;
+        }
 
+        //mostrar libro actual
+        imprimirCabecera();
+        System.out.println(libro);
+        imprimirPie();
+
+        // sub-menu de actualización
+        System.out.println("\n ¿Qué desea actualizar?");
+        System.out.println("    1. Título");
+        System.out.println("    2. Autor");
+        System.out.println("    3. Año");
+        System.out.println("    4. Genero");
+        System.out.println("    5. Todos los campos");
+        System.out.println("    Opcion: ");
+        int opcion = leerEntero();
+
+        switch (opcion){
+            case 1:
+                System.out.println("    Nuevo Título");
+                libro.setTitulo(teclado.nextLine());
+                break;
+            case 2:
+                System.out.println("    Nuevo autor");
+                libro.setAutor(teclado.nextLine());
+                break;
+            case 3:
+                System.out.println("    Nuevo año");
+                libro.setAnio(leerEntero());
+                break;
+            case 4:
+                System.out.println("    Nuevo genero");
+                libro.setGenero(teclado.nextLine());
+                break;
+            case 5:
+                System.out.println("    Nuevo Título"); libro.setTitulo(teclado.nextLine());
+                System.out.println("    Nuevo autor"); libro.setAutor(teclado.nextLine());
+                System.out.println("    Nuevo año"); libro.setAnio(leerEntero());
+                System.out.println("    Nuevo genero"); libro.setGenero(teclado.nextLine());
+                break;
+            default:
+                System.out.println("Opcion no válida");
+                return;
+        }
+        System.out.println("\n Libro se actualizo correctamente");
+
+    }
+
+    // delete - eliminar un libro
+    public void eliminarLibro(){
+        System.out.println("\n Ingrese el ID del libro a eliminar");
+        int id = leerEntero();
+        Libro libro = encontrarLibroPorID(id);
+
+        if (libro == null) {
+            System.out.println("No existe un libro con ID: " + id);
+            return;
+        }
+        //mostrar libro antes de eliminar
+        imprimirCabecera();
+        System.out.println(libro);
+        imprimirPie();
+
+        //pedir confirmacion
+        System.out.println("○2n Esta Seguro que desea eliminar este libro S/N: ");
+        String confirmacion = teclado.nextLine();
+
+        if (confirmacion.equalsIgnoreCase("S")){
+            System.out.println("Libreo eliminado correctamente");
+        }else {
+            System.out.println("Eliminacion cancelada");
+        }
+    }
+
+    // prestar libro
+
+    public void prestarLibro(){
+        System.out.println("\n Ingrese ID de libro a prestar: ");
+        int id = leerEntero();
+        Libro libro = encontrarLibroPorID(id);
+
+        if (libro == null) {
+            System.out.println("No existe un libro con ID: " + id);
+        } else if (libro.isPrestado()) {
+            System.out.println("El libro ya esta prestado.");
+
+        }else {
+            System.out.println( "Libro \"" + libro.getTitulo() + "\" marcado como prestado.");
+        }
+    }
+
+    // devolver libro
+    public void devolverLibro(){
+        System.out.println("\n Ingrese ID de libro a devolver: ");
+        int id = leerEntero();
+        Libro libro = encontrarLibroPorID(id);
+
+        if (libro == null) {
+            System.out.println("No existe un libro con ID: " + id);
+        } else if (!libro.isPrestado()) {
+            System.out.println("El libro ya esta disponible.");
+
+        }else {
+            System.out.println( "Libro \"" + libro.getTitulo() + "\" devuelto.");
+        }
+    }
     //metodo auxiliar
 
     private int leerEntero(){
